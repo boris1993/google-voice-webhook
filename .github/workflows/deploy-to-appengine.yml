@@ -1,0 +1,21 @@
+name: Deploy to AppEngine
+on: 
+  push:
+    branches:
+      - "master"
+    paths-ignore:
+      - ".github/**"
+  workflow_dispatch:
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Google Service Account Authentication
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/198292186808/locations/global/workloadIdentityPools/github'
+          service_account: 'github-workflow@default-364007.iam.gserviceaccount.com'
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v2
